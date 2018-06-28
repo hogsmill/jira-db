@@ -40,6 +40,18 @@ $config = {
       "project"
     ],
 
+    :startStates => [
+      "Open",
+      "In Progress",
+      "Development",
+      "In Development",
+      "Dev & Test"
+    ],
+
+    :endStates => [
+      "Closed"
+    ],
+
     :headers => [
       "Key",
       "Summary",

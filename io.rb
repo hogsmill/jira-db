@@ -28,10 +28,21 @@ def writeStatsToDb(db, cycleTime, cycleTimeCount, leadTime, leadTimeCount)
   summaries.insert_one(summary)
 end
 
+def writeTeamStatsToDb(db, team, cycleTime, cycleTimeCount, leadTime, leadTimeCount)
+  summary = {}
+  summary[:team] = team
+  summary[:date] = Date.today().strftime("%Y-%m-%d")
+  summary[:cycleTime] = cycleTimeCount == 0 ? 0 : cycleTime / cycleTimeCount
+  summary[:leadTime] = leadTimeCount == 0 ? 0 : leadTime / leadTimeCount
+
+  summaries = db[:teamsummaries]
+  summaries.delete_many({:date => summary[:date], :team => team})
+  summaries.insert_one(summary)
+end
 
 def getSaveFile
 
-  resultsFile = 'tmp.csv'
+  resultsFile = File.dirname(Dir.pwd) + '/' + File.basename(Dir.getwd) + '/tmp.csv'
   File.delete(resultsFile)
   f = File.open(resultsFile, 'a')
 
